@@ -1,9 +1,9 @@
-= Cerbos SPIFFE workload identity demo
+# Cerbos SPIFFE workload identity demo
 
 Demonstrates how to authorize machine-to-machine interactions using Cerbos. Within the context of Cerbos, the nature of the principal (human or non-human) is not particularly relevant as long as they are correctly identified and authenticated. In this example, workload attestation is provided by [Spire](https://spiffe.io/docs/latest/spire-about/) and verified by [Istio](https://istio.io) service mesh. The application obtains the verified SPIFFE ID from the Istio proxy and forwards that identity as the principal in the Cerbos request. The Cerbos policy checks the trust domain of the principal to decide whether to allow the action or not.
 
 
-== Extracting the SPIFFE ID and sending a check request to Cerbos
+## Extracting the SPIFFE ID and sending a check request to Cerbos
 
 The Istio proxy takes care of validating and verifying the workload identity before passing the request on to the application. The identity is added to the `X-Forwarded-Client-Certificate` header for the application to consume. This header consists of multiple key-value pairs separated by a semicolon. The `URI` key holds the [SPIFFE](https://spiffe.io) identifier of the workload and it can be parsed using the SPIFFE SDK.
 
@@ -75,7 +75,7 @@ resourcePolicy:
             P.id == "spiffe://cerbos.dev/ns/privileged/sa/curl"
 ```
 
-== Running the demo
+## Running the demo
 
 Requires the following tools installed on the machine.
 
