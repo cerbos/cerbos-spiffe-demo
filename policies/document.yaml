@@ -1,0 +1,25 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  resource: document
+  rules:
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles: ["api"]
+      condition:
+        match:
+          all:
+            of:
+              - expr: |-
+                  P.attr.trustDomain == "cerbos.dev"
+              - expr: |-
+                  R.attr.category in ["public", "internal"]
+
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles: ["api"]
+      condition:
+        match:
+          expr: |-
+            P.id == "spiffe://cerbos.dev/ns/privileged/sa/curl"

@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spiffe-demo-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spiffe-demo-server
+  labels:
+    app: spiffe-demo-server
+    service: spiffe-demo-server
+spec:
+  ports:
+    - port: 8080
+      name: http
+      targetPort: 8080
+  selector:
+    app: spiffe-demo-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spiffe-demo-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spiffe-demo-server
+  template:
+    metadata:
+      labels:
+        app: spiffe-demo-server
+        spiffe.io/spire-managed-identity: "true"
+      annotations:
+        inject.istio.io/templates: "sidecar,spire"
+    spec:
+      terminationGracePeriodSeconds: 0
+      serviceAccountName: spiffe-demo-server
+      containers:
+        - name: server
+          image: spiffe-demo-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          securityContext:
+            runAsUser: 1000

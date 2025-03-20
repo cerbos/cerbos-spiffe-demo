@@ -1,0 +1,19 @@
+---
+apiVersion: skaffold/v3
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: spiffe-demo-server
+      context: spiffe-demo-server
+      ko:
+        env:
+          - CGO_ENABLED=0
+        flags:
+          - "-trimpath"
+        ldflags:
+          - "-s"
+          - "-w"
+deploy:
+  kubectl: {}

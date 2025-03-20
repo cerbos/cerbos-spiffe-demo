@@ -1,0 +1,26 @@
+podAnnotations:
+  inject.istio.io/templates: "sidecar,spire"
+
+podLabels:
+  sidecar.istio.io/inject: "true"
+  spiffe.io/spire-managed-identity: "true"
+
+cerbos:
+  config:
+    storage:
+      driver: "disk"
+      disk:
+        directory: /policies
+        watchForChanges: false
+
+    telemetry:
+      disabled: true
+
+volumes:
+  - name: cerbos-policies
+    configMap:
+      name: cerbos-policies
+
+volumeMounts:
+  - name: cerbos-policies
+    mountPath: /policies
