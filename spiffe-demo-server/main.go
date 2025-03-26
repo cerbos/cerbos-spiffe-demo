@@ -120,7 +120,7 @@ func startServer(ctx context.Context) error {
 		}
 
 		allowed, err := cerbosClient.IsAllowed(r.Context(),
-			cerbos.NewPrincipal(id.String(), "api").WithAttr("trustDomain", id.TrustDomain().Name()),
+			cerbos.NewPrincipal(id.String(), "api"),
 			cerbos.NewResource("document", docID).WithAttr("category", doc.Category),
 			action,
 		)

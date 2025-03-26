@@ -12,7 +12,7 @@ resourcePolicy:
           all:
             of:
               - expr: |-
-                  P.attr.trustDomain == "cerbos.dev"
+                  spiffeMatchTrustDomain("spiffe://cerbos.dev").matchesID(spiffeID(p.ID))
               - expr: |-
                   R.attr.category in ["public", "internal"]
 
@@ -22,4 +22,4 @@ resourcePolicy:
       condition:
         match:
           expr: |-
-            P.id == "spiffe://cerbos.dev/ns/privileged/sa/curl"
+            spiffeMatchExact("spiffe://cerbos.dev/ns/privileged/sa/curl").matchesID(spiffeID(p.ID))
